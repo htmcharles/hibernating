@@ -1,14 +1,15 @@
-package mymis.rca.controllers.StudentController;
+package mymis.rca.controllers;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import Modeles.Student;
-import Services.StudentService;
+import mymis.rca.models.Student;
+import mymis.rca.services.StudentService;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -17,6 +18,7 @@ import java.time.format.DateTimeFormatter;
  */
 @WebServlet("/StudentController")
 public class StudentController extends HttpServlet {
+    @Serial
     private static final long serialVersionUID = 1L;
     StudentService service=StudentService.getInstance();
 
@@ -48,7 +50,7 @@ public class StudentController extends HttpServlet {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = "2005-02-20";
         LocalDate dob = LocalDate.parse(date, pattern);
-        Student student1=new Student(namef,namel,12,email,dob);
+        Student student1=new Student(namef,namel,email,12,dob);
         service.addStudent(student1);
         request.getRequestDispatcher("WEB-INF/register.jsp").forward(request, response);
 

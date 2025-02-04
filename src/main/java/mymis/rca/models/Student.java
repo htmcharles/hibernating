@@ -26,6 +26,7 @@ public class Student {
         this.dob = dob;
     }
 
+
     public int getId() { return id; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
