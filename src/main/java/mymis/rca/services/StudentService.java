@@ -1,54 +1,46 @@
 package mymis.rca.services;
 
-
 import mymis.rca.models.Student;
 import mymis.rca.utilities.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class StudentService {
-    // Hibernate SessionFactory
-    protected static SessionFactory sf = HibernateUtil.getSessionFactory();
 
-    // Singleton pattern
-    private static StudentService studentServices;
-
-    public static synchronized StudentService getInstance() {
-        if (studentServices == null) {
-            studentServices = new StudentService();
-        }
-        return studentServices;
-    }
-
-    // Private constructor to prevent instantiation
-    private StudentService() {
-    }
-
-    // Method to add a student
+    // Method to add a new student
     public void addStudent(Student student) {
-        // Using try-with-resources for automatic session management
-        try (Session session = sf.openSession()) {
-            // Begin transaction
-            Transaction transaction = session.beginTransaction();
+        Session session = null;
+        Transaction tx = null;
+        try {
+            // Open a session
+            session = HibernateUtil.getSessionFactory().openSession();
 
-            try {
-                // Persist the student entity
-                session.persist(student);
+            // Start a transaction
+            tx = session.beginTransaction();
 
-                // Commit the transaction
-                transaction.commit();
-            } catch (Exception e) {
-                // Rollback in case of an error
-                if (transaction != null && transaction.isActive()) {
-                    transaction.rollback();
-                }
-                e.printStackTrace();  // Log the exception
-            }
+            // Save the student object
+            session.save(student);
+
+            // Commit the transaction to save the student
+            tx.commit();
+
+            // Get the generated ID using LAST_INSERT_ID()
+            Long studentId = (Long) session.createSQLQuery("SELECT LAST_INSERT_ID()").uniqueResult();
+
+            // Print the generated ID
+            System.out.println("Generated Student ID: " + studentId);
+
         } catch (Exception e) {
-            e.printStackTrace();  // Log the exception if session fails to open
+            // Rollback transaction in case of an error
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            // Close the session
+            if (session != null) {
+                session.close();
+            }
         }
     }
-
-    // You can add other CRUD operations here (e.g., update, delete, etc.)
 }

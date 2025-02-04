@@ -2,7 +2,6 @@ package mymis.rca.utilities;
 
 import mymis.rca.models.Student;
 import java.util.Properties;
-import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -23,10 +22,12 @@ public class HibernateUtil {
                 settings.put(Environment.URL, "jdbc:mariadb://localhost:3306/students"); // Change DB name if needed
                 settings.put(Environment.USER, "root"); // Root user
                 settings.put(Environment.PASS, ""); // No password
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.MariaDBDialect");
 
                 settings.put(Environment.SHOW_SQL, "true"); // Enables SQL logging
                 settings.put(Environment.HBM2DDL_AUTO, "update"); // Creates or updates tables automatically
+
+                // Dialect configuration for MariaDB
+                settings.put(Environment.DIALECT, "org.hibernate.dialect.MariaDBDialect");
 
                 configuration.setProperties(settings);
                 configuration.addAnnotatedClass(Student.class);
