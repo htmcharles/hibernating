@@ -12,14 +12,16 @@ public class Student {
 
     private String firstName;
     private String lastName;
+    private String email;
     private int age;
     private LocalDate dob;
 
     public Student() {}
 
-    public Student(String firstName, String lastName, int age, LocalDate dob) {
+    public Student(String firstName, String lastName, String email, int age, LocalDate dob) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.age = age;
         this.dob = dob;
     }
