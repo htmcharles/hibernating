@@ -18,15 +18,15 @@ public class HibernateUtil {
                 Configuration configuration = new Configuration();
                 Properties settings = new Properties();
 
-                // PostgreSQL Configuration
-                settings.put(Environment.DRIVER, "org.postgresql.Driver");
-                settings.put(Environment.URL, "jdbc:postgresql://localhost:5432/myapp"); // Change DB name
-                settings.put(Environment.USER, "postgres"); // Change to your username
-                settings.put(Environment.PASS, "emma"); // Change to your password
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
+                // MariaDB (MySQL) Configuration
+                settings.put(Environment.DRIVER, "org.mariadb.jdbc.Driver");
+                settings.put(Environment.URL, "jdbc:mariadb://localhost:3306/students"); // Change DB name if needed
+                settings.put(Environment.USER, "root"); // Root user
+                settings.put(Environment.PASS, ""); // No password
+                settings.put(Environment.DIALECT, "org.hibernate.dialect.MariaDBDialect");
 
                 settings.put(Environment.SHOW_SQL, "true"); // Enables SQL logging
-                settings.put(Environment.HBM2DDL_AUTO, "update"); // Use "update" to avoid dropping data
+                settings.put(Environment.HBM2DDL_AUTO, "update"); // Creates or updates tables automatically
 
                 configuration.setProperties(settings);
                 configuration.addAnnotatedClass(Student.class);
