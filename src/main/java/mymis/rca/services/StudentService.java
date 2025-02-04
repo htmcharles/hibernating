@@ -3,44 +3,53 @@ package mymis.rca.services;
 import mymis.rca.models.Student;
 import mymis.rca.utilities.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class StudentService {
+    // Hibernate SessionFactory
+    protected static SessionFactory sf = HibernateUtil.getSessionFactory();
+    protected static Session session;
 
-    // Method to add a new student
+    // Singleton pattern
+    private static StudentService studentServices;
+
+    public static synchronized StudentService getInstance() {
+        if (studentServices == null) {
+            studentServices = new StudentService();
+        }
+        return studentServices;
+    }
+
+    // Private constructor to prevent instantiation
+    private StudentService() {
+    }
+
+    // Method to add a student
     public void addStudent(Student student) {
-        Session session = null;
-        Transaction tx = null;
+        session = sf.openSession();
+        Transaction transaction = null;
         try {
-            // Open a session
-            session = HibernateUtil.getSessionFactory().openSession();
-
-            // Start a transaction
-            tx = session.beginTransaction();
-
-            // Save the student object
-            session.save(student);
-
-            // Commit the transaction to save the student
-            tx.commit();
-
-            // Get the generated ID using LAST_INSERT_ID()
-            Long studentId = (Long) session.createSQLQuery("SELECT LAST_INSERT_ID()").uniqueResult();
-
-            // Print the generated ID
-            System.out.println("Generated Student ID: " + studentId);
-
+            transaction = session.beginTransaction();
+            session.persist(student);  // Persist the student entity
+            transaction.commit();  // Commit transaction if everything goes fine
         } catch (Exception e) {
-            // Rollback transaction in case of an error
-            if (tx != null) {
-                tx.rollback();
+            if (transaction != null) {
+                transaction.rollback();  // Rollback in case of error
             }
             e.printStackTrace();
         } finally {
-            // Close the session
-            if (session != null) {
-                session.close();
-            }
+            session.close();  // Ensure session is closed
         }
+    }
+
+    // Method to get all students
+    public List<Student> getAllStudents() {
+        session = sf.openSession();
+        List<Student> students = session.createQuery("from Student", Student.class).list();
+        session.close();
+        return students;
     }
 }
