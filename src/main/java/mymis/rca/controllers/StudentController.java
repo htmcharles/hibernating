@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * Servlet implementation class StudentController
  */
+@WebServlet("/StudentController")
 public class StudentController extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -49,7 +50,7 @@ public class StudentController extends HttpServlet {
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = "2005-02-20";
         LocalDate dob = LocalDate.parse(date, pattern);
-        Student student1=new Student(namef,namel,email,12,dob);
+        Student student1=new Student(namef,namel,12,email,dob);
         service.addStudent(student1);
         request.getRequestDispatcher("WEB-INF/register.jsp").forward(request, response);
 

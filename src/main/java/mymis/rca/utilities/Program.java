@@ -9,14 +9,19 @@ import mymis.rca.models.Student;
 public class Program {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
+        // Get SessionFactory and open session
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        Student student1 = new Student( "Mike", "Mugabo","mike@gmail.com",12, LocalDate.now());
-        session.merge(student1);
+
+        // Create a new student
+        Student student1 = new Student("Mike", "Mugabo", "mike@gmail.com", 12, LocalDate.now());
+
+        // Persist the student to the database (don't use merge here)
+        session.persist(student1);
+
+        // Commit transaction and close session
         transaction.commit();
-
+        session.close();
     }
-
 }
