@@ -16,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * Servlet implementation class StudentController
  */
-@WebServlet("/StudentController")
 public class StudentController extends HttpServlet {
     @Serial
     private static final long serialVersionUID = 1L;

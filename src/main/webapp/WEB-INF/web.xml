@@ -4,16 +4,14 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <!-- Define a servlet to forward to the JSP -->
     <servlet>
-        <servlet-name>RegisterServlet</servlet-name>
-        <jsp-file>/WEB-INF/register.jsp</jsp-file>
+        <servlet-name>StudentController</servlet-name>
+        <servlet-class>mymis.rca.controllers.StudentController</servlet-class>
     </servlet>
 
-    <!-- Map the servlet to a URL pattern -->
     <servlet-mapping>
-        <servlet-name>RegisterServlet</servlet-name>
-        <url-pattern>/register</url-pattern>
+        <servlet-name>StudentController</servlet-name>
+        <url-pattern>/StudentController</url-pattern>
     </servlet-mapping>
 
 </web-app>
