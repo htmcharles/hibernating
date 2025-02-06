@@ -1,27 +1,25 @@
+// Program.java
 package mymis.rca.utilities;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import mymis.rca.models.Student;
 
 public class Program {
-
     public static void main(String[] args) {
-        // Get SessionFactory and open session
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
+        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = "2005-02-20";
+        LocalDate dob = LocalDate.parse(date, pattern);
+        System.out.println(dob);
 
-        // Create a new student
-        Student student1 = new Student("Mike", "Mugabo", "mike@gmail.com", 12, LocalDate.now());
-
-        // Persist the student to the database (don't use merge here)
-        session.persist(student1);
-
-        // Commit transaction and close session
-        transaction.commit();
+        SessionFactory sf = HibernateUtil.getSessionFactory();
+        Session session = sf.openSession();
+        session.beginTransaction();
+        session.persist(new Student("hatuma", "Mike", "mike@example.com", 12, dob));
+        session.getTransaction().commit();
         session.close();
     }
 }
