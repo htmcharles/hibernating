@@ -23,9 +23,7 @@ public class StudentService {
         return studentServices;
     }
 
-    // Private constructor to prevent instantiation
-    private StudentService() {
-    }
+    private StudentService() {}
 
     // Method to add a student
     public void addStudent(Student student) {
